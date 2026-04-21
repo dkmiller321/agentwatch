@@ -1,7 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
 import type { LogEvent, ClassificationResult } from "./types";
-
-const anthropic = new Anthropic();
 
 const BATCH_MAX = 20;
 
@@ -17,7 +14,6 @@ Be conservative: only flag entries you are reasonably confident about. Consider 
 
 /**
  * Redact PII from a string before sending to the LLM.
- * Replaces email addresses and SSN-shaped patterns.
  */
 function redactPii(text: string): string {
   return text
@@ -38,7 +34,7 @@ function formatEventsForLlm(events: LogEvent[]): string {
 }
 
 /**
- * Classify a batch of log events using Claude to identify AI agent activity.
+ * Classify a batch of log events using OpenRouter (OpenAI-compatible) to identify AI agent activity.
  * Events are redacted of PII before being sent.
  * Maximum batch size is 20; larger arrays are chunked automatically.
  */
@@ -49,7 +45,6 @@ export async function classifyBatch(
 
   const results: ClassificationResult[] = [];
 
-  // Process in chunks of BATCH_MAX
   for (let offset = 0; offset < events.length; offset += BATCH_MAX) {
     const chunk = events.slice(offset, offset + BATCH_MAX);
     const chunkResults = await classifyChunk(chunk);
@@ -63,25 +58,50 @@ async function classifyChunk(
   events: LogEvent[],
 ): Promise<ClassificationResult[]> {
   const formattedText = redactPii(formatEventsForLlm(events));
+  const apiKey = process.env.OPENROUTER_API_KEY;
 
-  const message = await anthropic.messages.create({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: 2048,
-    system: SYSTEM_PROMPT,
-    messages: [
-      {
-        role: "user",
-        content: `Classify the following ${events.length} log entries:\n\n${formattedText}`,
-      },
-    ],
+  if (!apiKey) {
+    return events.map(() => ({
+      isAgent: false,
+      provider: null,
+      confidence: 0,
+      rationale: "OPENROUTER_API_KEY not configured",
+    }));
+  }
+
+  const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: "anthropic/claude-sonnet-4",
+      max_tokens: 2048,
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        {
+          role: "user",
+          content: `Classify the following ${events.length} log entries:\n\n${formattedText}`,
+        },
+      ],
+    }),
   });
 
-  const responseText =
-    message.content[0].type === "text" ? message.content[0].text : "";
+  if (!response.ok) {
+    return events.map(() => ({
+      isAgent: false,
+      provider: null,
+      confidence: 0,
+      rationale: `OpenRouter API error: ${response.status}`,
+    }));
+  }
+
+  const data = await response.json();
+  const responseText = data.choices?.[0]?.message?.content ?? "";
 
   try {
     const parsed = JSON.parse(responseText) as ClassificationResult[];
-    // Ensure we have exactly the right number of results
     if (!Array.isArray(parsed) || parsed.length !== events.length) {
       return events.map(() => ({
         isAgent: false,

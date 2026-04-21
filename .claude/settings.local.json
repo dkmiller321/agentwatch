@@ -17,7 +17,15 @@
       "mcp__stripe__create_product",
       "mcp__stripe__create_price",
       "mcp__supabase__create_project",
-      "mcp__supabase__apply_migration"
+      "mcp__supabase__apply_migration",
+      "mcp__vercel__deploy_to_vercel",
+      "Bash(npx vercel:*)",
+      "Bash(git add:*)",
+      "Bash(git commit --amend -m 'fix: use single daily cron for Vercel hobby plan:*)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "gitlab"
+  ],
+  "enableAllProjectMcpServers": true
 }
