@@ -21,11 +21,12 @@
       "mcp__vercel__deploy_to_vercel",
       "Bash(npx vercel:*)",
       "Bash(git add:*)",
-      "Bash(git commit --amend -m 'fix: use single daily cron for Vercel hobby plan:*)"
+      "Bash(git commit --amend -m 'fix: use single daily cron for Vercel hobby plan:*)",
+      "Bash(npx playwright:*)"
     ]
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "gitlab"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }
