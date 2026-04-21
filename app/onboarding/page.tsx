@@ -40,13 +40,21 @@ export default function OnboardingPage() {
       const file = acceptedFiles[0]
       const filePath = `onboarding/${Date.now()}-${file.name}`
 
-      await supabase.storage.from("log-uploads").upload(filePath, file)
+      const { error: uploadError } = await supabase.storage
+        .from("log-uploads")
+        .upload(filePath, file)
+
+      if (uploadError) {
+        console.error("Upload error:", uploadError)
+        setUploading(false)
+        return
+      }
 
       // Create ingestion job via API
       const res = await fetch("/api/ingestion-jobs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ file_path: filePath }),
+        body: JSON.stringify({ filePath }),
       })
 
       if (res.ok) {
