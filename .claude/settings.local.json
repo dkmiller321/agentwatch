@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(npm install:*)",
+      "Bash(npx create-next-app@latest agentwatch-app --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --use-pnpm --no-turbopack)",
+      "Read(//c/tmp/**)",
+      "Bash(rm -rf agentwatch-app)",
+      "Bash(cp:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm dlx:*)",
+      "Bash(node:*)",
+      "Bash(pnpm typecheck:*)",
+      "Bash(pnpm build:*)",
+      "mcp__github__create_repository",
+      "mcp__stripe__create_product",
+      "mcp__stripe__create_price",
+      "mcp__supabase__create_project",
+      "mcp__supabase__apply_migration"
+    ]
+  }
+}

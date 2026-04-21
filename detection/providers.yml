@@ -1,0 +1,187 @@
+providers:
+  - name: anthropic
+    friendly_name: Anthropic
+    destination_patterns:
+      - "^api\\.anthropic\\.com$"
+    user_agent_patterns:
+      - "anthropic"
+      - "claude"
+    path_patterns:
+      - "^/v1/messages"
+      - "^/v1/complete"
+
+  - name: openai
+    friendly_name: OpenAI
+    destination_patterns:
+      - "^api\\.openai\\.com$"
+    user_agent_patterns:
+      - "openai"
+      - "ChatGPT"
+    path_patterns:
+      - "^/v1/chat/completions"
+      - "^/v1/completions"
+      - "^/v1/embeddings"
+      - "^/v1/images"
+      - "^/v1/audio"
+
+  - name: google_gemini
+    friendly_name: Google Gemini
+    destination_patterns:
+      - "^generativelanguage\\.googleapis\\.com$"
+      - "^aiplatform\\.googleapis\\.com$"
+    user_agent_patterns:
+      - "google-genai"
+      - "generativelanguage"
+    path_patterns:
+      - "^/v1beta/models/.+:generateContent"
+      - "^/v1/models/.+:generateContent"
+      - "^/v1beta/models/.+:streamGenerateContent"
+
+  - name: cohere
+    friendly_name: Cohere
+    destination_patterns:
+      - "^api\\.cohere\\.ai$"
+      - "^api\\.cohere\\.com$"
+    user_agent_patterns:
+      - "cohere"
+    path_patterns:
+      - "^/v1/chat"
+      - "^/v1/generate"
+      - "^/v1/embed"
+      - "^/v1/rerank"
+
+  - name: mistral
+    friendly_name: Mistral
+    destination_patterns:
+      - "^api\\.mistral\\.ai$"
+    user_agent_patterns:
+      - "mistral"
+    path_patterns:
+      - "^/v1/chat/completions"
+      - "^/v1/embeddings"
+      - "^/v1/fim/completions"
+
+  - name: perplexity
+    friendly_name: Perplexity
+    destination_patterns:
+      - "^api\\.perplexity\\.ai$"
+    user_agent_patterns:
+      - "perplexity"
+    path_patterns:
+      - "^/chat/completions"
+
+  - name: together
+    friendly_name: Together AI
+    destination_patterns:
+      - "^api\\.together\\.xyz$"
+      - "^api\\.together\\.ai$"
+    user_agent_patterns:
+      - "together"
+    path_patterns:
+      - "^/v1/chat/completions"
+      - "^/v1/completions"
+      - "^/v1/embeddings"
+      - "^/inference"
+
+  - name: groq
+    friendly_name: Groq
+    destination_patterns:
+      - "^api\\.groq\\.com$"
+    user_agent_patterns:
+      - "groq"
+    path_patterns:
+      - "^/openai/v1/chat/completions"
+      - "^/openai/v1/audio"
+
+  - name: huggingface
+    friendly_name: Hugging Face
+    destination_patterns:
+      - "^api-inference\\.huggingface\\.co$"
+      - "^.+\\.endpoints\\.huggingface\\.cloud$"
+    user_agent_patterns:
+      - "huggingface"
+      - "hf-inference"
+    path_patterns:
+      - "^/models/"
+      - "^/pipeline/"
+
+  - name: azure_openai
+    friendly_name: Azure OpenAI
+    destination_patterns:
+      - "^.+\\.openai\\.azure\\.com$"
+    user_agent_patterns:
+      - "azure-openai"
+      - "azsdk-net"
+      - "azsdk-python"
+      - "azsdk-java"
+    path_patterns:
+      - "^/openai/deployments/.+/chat/completions"
+      - "^/openai/deployments/.+/completions"
+      - "^/openai/deployments/.+/embeddings"
+
+  - name: aws_bedrock
+    friendly_name: AWS Bedrock
+    destination_patterns:
+      - "^bedrock-runtime\\..+\\.amazonaws\\.com$"
+      - "^bedrock\\..+\\.amazonaws\\.com$"
+    user_agent_patterns:
+      - "aws-sdk"
+      - "boto3"
+      - "bedrock"
+    path_patterns:
+      - "^/model/.+/invoke"
+      - "^/model/.+/invoke-with-response-stream"
+
+  - name: replicate
+    friendly_name: Replicate
+    destination_patterns:
+      - "^api\\.replicate\\.com$"
+    user_agent_patterns:
+      - "replicate"
+    path_patterns:
+      - "^/v1/predictions"
+      - "^/v1/models/"
+
+  - name: fireworks
+    friendly_name: Fireworks AI
+    destination_patterns:
+      - "^api\\.fireworks\\.ai$"
+    user_agent_patterns:
+      - "fireworks"
+    path_patterns:
+      - "^/inference/v1/chat/completions"
+      - "^/inference/v1/completions"
+      - "^/inference/v1/embeddings"
+
+  - name: deepgram
+    friendly_name: Deepgram
+    destination_patterns:
+      - "^api\\.deepgram\\.com$"
+    user_agent_patterns:
+      - "deepgram"
+    path_patterns:
+      - "^/v1/listen"
+      - "^/v1/speak"
+      - "^/v1/read"
+
+  - name: elevenlabs
+    friendly_name: ElevenLabs
+    destination_patterns:
+      - "^api\\.elevenlabs\\.io$"
+    user_agent_patterns:
+      - "elevenlabs"
+    path_patterns:
+      - "^/v1/text-to-speech"
+      - "^/v1/speech-to-speech"
+      - "^/v1/voices"
+
+  - name: stability_ai
+    friendly_name: Stability AI
+    destination_patterns:
+      - "^api\\.stability\\.ai$"
+    user_agent_patterns:
+      - "stability"
+    path_patterns:
+      - "^/v1/generation"
+      - "^/v2beta/stable-image"
+      - "^/v1/engines"
