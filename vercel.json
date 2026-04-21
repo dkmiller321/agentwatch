@@ -1,12 +1,1 @@
-{
-  "crons": [
-    {
-      "path": "/api/cron/ingest",
-      "schedule": "*/2 * * * *"
-    },
-    {
-      "path": "/api/cron/retention",
-      "schedule": "0 3 * * *"
-    }
-  ]
-}
+{}
